@@ -1,14 +1,12 @@
 # ggplot2 cheatsheet
 
+
+
 ## Loading ggplot
 
 
 ```r
 library(ggplot2)
-```
-
-```
-## Loading required package: methods
 ```
 
 ## Loading sample data
@@ -58,10 +56,6 @@ qplot(carat, price, data=dsmall, color=color, shape=cut, alpha=I(1/2))
 qplot(carat, price, data=dsmall, geom=c("point", "smooth"))
 ```
 
-```
-## geom_smooth: method="auto" and size of largest group is <1000, so using loess. Use 'method = x' to change the smoothing method.
-```
-
 ![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5.png) 
 
 ### Adding a smoother
@@ -97,10 +91,6 @@ qplot(color, price/carat, data=diamonds, geom="boxplot")
 qplot(carat, data=diamonds, geom="histogram")
 ```
 
-```
-## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
-```
-
 ![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9.png) 
 
 
@@ -127,10 +117,6 @@ qplot(carat, data=diamonds, geom="histogram", binwidth=0.1)
 
 ```r
 qplot(carat, data=diamonds, geom="histogram", binwidth=0.01)
-```
-
-```
-## Warning: position_stack requires constant width: output may be incorrect
 ```
 
 ![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-113.png) 

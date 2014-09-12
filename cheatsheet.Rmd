@@ -1,5 +1,9 @@
 # ggplot2 cheatsheet
 
+```{r global_options, include=FALSE}
+opts_chunk$set(warning=FALSE, message=FALSE)
+```
+
 ## Loading ggplot
 
 ```{r}
