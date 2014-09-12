@@ -1,7 +1,7 @@
 # ggplot2 cheatsheet
 
 ```{r}
-opts_chunk$set(warning=FALSE)
+opts_chunk$set(warning=FALSE, message=FALSE)
 ```
 
 ## Loading ggplot

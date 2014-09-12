@@ -2,7 +2,7 @@
 
 
 ```r
-opts_chunk$set(warning=FALSE)
+opts_chunk$set(warning=FALSE, message=FALSE)
 ```
 
 ## Loading ggplot
@@ -10,10 +10,6 @@ opts_chunk$set(warning=FALSE)
 
 ```r
 library(ggplot2)
-```
-
-```
-## Loading required package: methods
 ```
 
 ## Loading sample data
@@ -63,10 +59,6 @@ qplot(carat, price, data=dsmall, color=color, shape=cut, alpha=I(1/2))
 qplot(carat, price, data=dsmall, geom=c("point", "smooth"))
 ```
 
-```
-## geom_smooth: method="auto" and size of largest group is <1000, so using loess. Use 'method = x' to change the smoothing method.
-```
-
 ![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6.png) 
 
 ### Adding a smoother
@@ -100,10 +92,6 @@ qplot(color, price/carat, data=diamonds, geom="boxplot")
 
 ```r
 qplot(carat, data=diamonds, geom="histogram", fill=color)
-```
-
-```
-## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
 ```
 
 ![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10.png) 
