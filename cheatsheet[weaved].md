@@ -1,18 +1,33 @@
-# ggplot2 cheatsheet
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [Loading ggplot and sample data](#loading-ggplot-and-sample-data)
+- [Basic use with qplot](#basic-use-with-qplot)
+  - [Color, size, shape and other aesthetic attributes](#color-size-shape-and-other-aesthetic-attributes)
+  - [Plot geoms](#plot-geoms)
+    - [Adding a smoother](#adding-a-smoother)
+    - [Boxplots and jittered points](#boxplots-and-jittered-points)
+    - [Histogram and density plots](#histogram-and-density-plots)
+    - [Bar charts](#bar-charts)
+    - [Time series](#time-series)
+  - [Faceting](#faceting)
+  - [Other options](#other-options)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 
 ```r
 opts_chunk$set(warning=FALSE, message=FALSE)
 ```
 
-## Loading ggplot
+# Loading ggplot and sample data
 
 
 ```r
 library(ggplot2)
 ```
-
-## Loading sample data
 
 
 ```r
@@ -34,7 +49,7 @@ head(diamonds)
 dsmall <- diamonds[sample(nrow(diamonds), 100), ]
 ```
 
-## Basic use (qplot)
+# Basic use with qplot
 
 
 ```r
@@ -166,7 +181,7 @@ qplot(date, unemploy/pop, data=economics, geom="line")
 
 ![plot of chunk unnamed-chunk-16](figure/unnamed-chunk-16.png) 
 
-### Faceting
+## Faceting
 
 
 ```r
@@ -176,7 +191,7 @@ qplot(carat, data=diamonds, facets=color~.,
 
 ![plot of chunk unnamed-chunk-17](figure/unnamed-chunk-17.png) 
 
-### Other options
+## Other options
 - `xlim` and `ylim`: set limits for x- and y-axis (e.g. `xlim=c(0,20)`)
 - `main`: main title for the plot
 - `xlab` and `ylab`: labels for x- and y-axis

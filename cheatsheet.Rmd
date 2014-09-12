@@ -1,16 +1,13 @@
-# ggplot2 cheatsheet
 
 ```{r}
 opts_chunk$set(warning=FALSE, message=FALSE)
 ```
 
-## Loading ggplot
+# Loading ggplot and sample data
 
 ```{r}
 library(ggplot2)
 ```
-
-## Loading sample data
 
 ```{r}
 set.seed(1410)  # make the sample reproducible
@@ -18,7 +15,7 @@ head(diamonds)
 dsmall <- diamonds[sample(nrow(diamonds), 100), ]
 ```
 
-## Basic use (qplot)
+# Basic use with qplot
 
 ```{r}
 qplot(carat, price, data=diamonds)
@@ -93,14 +90,14 @@ head(economics)
 qplot(date, unemploy/pop, data=economics, geom="line")
 ```
 
-### Faceting
+## Faceting
 
 ```{r}
 qplot(carat, data=diamonds, facets=color~.,
       geom="histogram", binwidth=0.1, xlim=c(0,3))
 ```
 
-### Other options
+## Other options
 - `xlim` and `ylim`: set limits for x- and y-axis (e.g. `xlim=c(0,20)`)
 - `main`: main title for the plot
 - `xlab` and `ylab`: labels for x- and y-axis
