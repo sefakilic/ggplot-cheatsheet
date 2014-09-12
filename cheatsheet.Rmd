@@ -3,19 +3,21 @@
 opts_chunk$set(warning=FALSE, message=FALSE)
 ```
 
-# Loading ggplot and sample data
+# Loading ggplot
 
 ```{r}
 library(ggplot2)
 ```
+
+# Basic use with qplot
+
+Load the sample data
 
 ```{r}
 set.seed(1410)  # make the sample reproducible
 head(diamonds)
 dsmall <- diamonds[sample(nrow(diamonds), 100), ]
 ```
-
-# Basic use with qplot
 
 ```{r}
 qplot(carat, price, data=diamonds)
@@ -108,3 +110,4 @@ qplot(carat, price, data=dsmall,
       ylab="Weight (carats)",
       main="Price-weight relationship")
 ```
+
