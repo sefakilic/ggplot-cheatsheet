@@ -9,7 +9,8 @@ library(ggplot2)
 ## Loading sample data
 
 ```{r}
-set.seed(1410)                          # make the sample reproducible
+set.seed(1410)  # make the sample reproducible
+head(diamonds)
 dsmall <- diamonds[sample(nrow(diamonds), 100), ]
 ```
 
@@ -17,4 +18,51 @@ dsmall <- diamonds[sample(nrow(diamonds), 100), ]
 
 ```{r}
 qplot(carat, price, data=diamonds)
+```
+
+## Color, size, shape and other aesthetic attributes
+
+```{r}
+qplot(carat, price, data=dsmall, color=color, shape=cut, alpha=I(1/2))
+```
+
+## Plot geoms
+
+```{r}
+qplot(carat, price, data=dsmall, geom=c("point", "smooth"))
+```
+
+### Adding a smoother
+There are many different smoother that can be used with `method` argument.
+
+```{r}
+qplot(carat, price, data=dsmall, geom=c("point", "smooth"), method="lm")
+```
+
+### Boxplots and jittered points
+
+```{r}
+qplot(color, price/carat, data=diamonds, geom="jitter")
+```
+
+```{r}
+qplot(color, price/carat, data=diamonds, geom="boxplot")
+```
+
+### Histogram and density plots
+
+```{r}
+qplot(carat, data=diamonds, geom="histogram")
+```
+
+```{r}
+qplot(carat, data=diamonds, geom="density")
+```
+
+Change the amount of smoothing with `binwidth` argument.
+
+```{r}
+qplot(carat, data=diamonds, geom="histogram", binwidth=1)
+qplot(carat, data=diamonds, geom="histogram", binwidth=0.1)
+qplot(carat, data=diamonds, geom="histogram", binwidth=0.01)
 ```
