@@ -1,12 +1,19 @@
 # ggplot2 cheatsheet
 
 
+```r
+opts_chunk$set(warning=FALSE)
+```
 
 ## Loading ggplot
 
 
 ```r
 library(ggplot2)
+```
+
+```
+## Loading required package: methods
 ```
 
 ## Loading sample data
@@ -38,7 +45,7 @@ dsmall <- diamonds[sample(nrow(diamonds), 100), ]
 qplot(carat, price, data=diamonds)
 ```
 
-![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3.png) 
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
 
 ## Color, size, shape and other aesthetic attributes
 
@@ -47,7 +54,7 @@ qplot(carat, price, data=diamonds)
 qplot(carat, price, data=dsmall, color=color, shape=cut, alpha=I(1/2))
 ```
 
-![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5.png) 
 
 ## Plot geoms
 
@@ -56,7 +63,11 @@ qplot(carat, price, data=dsmall, color=color, shape=cut, alpha=I(1/2))
 qplot(carat, price, data=dsmall, geom=c("point", "smooth"))
 ```
 
-![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5.png) 
+```
+## geom_smooth: method="auto" and size of largest group is <1000, so using loess. Use 'method = x' to change the smoothing method.
+```
+
+![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6.png) 
 
 ### Adding a smoother
 There are many different smoother that can be used with `method` argument.
@@ -66,7 +77,7 @@ There are many different smoother that can be used with `method` argument.
 qplot(carat, price, data=dsmall, geom=c("point", "smooth"), method="lm")
 ```
 
-![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6.png) 
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7.png) 
 
 ### Boxplots and jittered points
 
@@ -75,30 +86,34 @@ qplot(carat, price, data=dsmall, geom=c("point", "smooth"), method="lm")
 qplot(color, price/carat, data=diamonds, geom="jitter")
 ```
 
-![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7.png) 
+![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8.png) 
 
 
 ```r
 qplot(color, price/carat, data=diamonds, geom="boxplot")
 ```
 
-![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8.png) 
+![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9.png) 
 
 ### Histogram and density plots
 
 
 ```r
-qplot(carat, data=diamonds, geom="histogram")
+qplot(carat, data=diamonds, geom="histogram", fill=color)
 ```
 
-![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9.png) 
-
-
-```r
-qplot(carat, data=diamonds, geom="density")
+```
+## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
 ```
 
 ![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10.png) 
+
+
+```r
+qplot(carat, data=diamonds, geom="density", color=color)
+```
+
+![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11.png) 
 
 Change the amount of smoothing with `binwidth` argument.
 
@@ -107,16 +122,83 @@ Change the amount of smoothing with `binwidth` argument.
 qplot(carat, data=diamonds, geom="histogram", binwidth=1)
 ```
 
-![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-111.png) 
+![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-121.png) 
 
 ```r
 qplot(carat, data=diamonds, geom="histogram", binwidth=0.1)
 ```
 
-![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-112.png) 
+![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-122.png) 
 
 ```r
 qplot(carat, data=diamonds, geom="histogram", binwidth=0.01)
 ```
 
-![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-113.png) 
+![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-123.png) 
+
+### Bar charts
+
+
+```r
+qplot(color, data=diamonds, geom="bar")
+```
+
+![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13.png) 
+
+
+```r
+# bar plot of diamond color weighted by carat
+qplot(color, data=diamonds, geom="bar", weight=carat) +
+    scale_y_continuous("carat")
+```
+
+![plot of chunk unnamed-chunk-14](figure/unnamed-chunk-14.png) 
+
+### Time series
+
+
+```r
+head(economics)
+```
+
+```
+##         date   pce    pop psavert uempmed unemploy
+## 1 1967-06-30 507.8 198712     9.8     4.5     2944
+## 2 1967-07-31 510.9 198911     9.8     4.7     2945
+## 3 1967-08-31 516.7 199113     9.0     4.6     2958
+## 4 1967-09-30 513.3 199311     9.8     4.9     3143
+## 5 1967-10-31 518.5 199498     9.7     4.7     3066
+## 6 1967-11-30 526.2 199657     9.4     4.8     3018
+```
+
+
+```r
+qplot(date, unemploy/pop, data=economics, geom="line")
+```
+
+![plot of chunk unnamed-chunk-16](figure/unnamed-chunk-16.png) 
+
+### Faceting
+
+
+```r
+qplot(carat, data=diamonds, facets=color~.,
+      geom="histogram", binwidth=0.1, xlim=c(0,3))
+```
+
+![plot of chunk unnamed-chunk-17](figure/unnamed-chunk-17.png) 
+
+### Other options
+- `xlim` and `ylim`: set limits for x- and y-axis (e.g. `xlim=c(0,20)`)
+- `main`: main title for the plot
+- `xlab` and `ylab`: labels for x- and y-axis
+
+
+```r
+qplot(carat, price, data=dsmall,
+      xlab="Price ($)",
+      ylab="Weight (carats)",
+      main="Price-weight relationship")
+```
+
+![plot of chunk unnamed-chunk-18](figure/unnamed-chunk-18.png) 

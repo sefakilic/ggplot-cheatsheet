@@ -1,7 +1,7 @@
 # ggplot2 cheatsheet
 
-```{r global_options, include=FALSE}
-opts_chunk$set(warning=FALSE, message=FALSE)
+```{r}
+opts_chunk$set(warning=FALSE)
 ```
 
 ## Loading ggplot
@@ -56,11 +56,11 @@ qplot(color, price/carat, data=diamonds, geom="boxplot")
 ### Histogram and density plots
 
 ```{r}
-qplot(carat, data=diamonds, geom="histogram")
+qplot(carat, data=diamonds, geom="histogram", fill=color)
 ```
 
 ```{r}
-qplot(carat, data=diamonds, geom="density")
+qplot(carat, data=diamonds, geom="density", color=color)
 ```
 
 Change the amount of smoothing with `binwidth` argument.
@@ -69,4 +69,45 @@ Change the amount of smoothing with `binwidth` argument.
 qplot(carat, data=diamonds, geom="histogram", binwidth=1)
 qplot(carat, data=diamonds, geom="histogram", binwidth=0.1)
 qplot(carat, data=diamonds, geom="histogram", binwidth=0.01)
+```
+
+### Bar charts
+
+```{r}
+qplot(color, data=diamonds, geom="bar")
+```
+
+```{r}
+# bar plot of diamond color weighted by carat
+qplot(color, data=diamonds, geom="bar", weight=carat) +
+    scale_y_continuous("carat")
+```
+
+### Time series
+
+```{r}
+head(economics)
+```
+
+```{r}
+qplot(date, unemploy/pop, data=economics, geom="line")
+```
+
+### Faceting
+
+```{r}
+qplot(carat, data=diamonds, facets=color~.,
+      geom="histogram", binwidth=0.1, xlim=c(0,3))
+```
+
+### Other options
+- `xlim` and `ylim`: set limits for x- and y-axis (e.g. `xlim=c(0,20)`)
+- `main`: main title for the plot
+- `xlab` and `ylab`: labels for x- and y-axis
+
+```{r}
+qplot(carat, price, data=dsmall,
+      xlab="Price ($)",
+      ylab="Weight (carats)",
+      main="Price-weight relationship")
 ```

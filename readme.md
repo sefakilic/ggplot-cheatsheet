@@ -1,0 +1,5 @@
+ggplot-cheatsheet
+=================
+
+cheatsheet for [ggplot2](http://ggplot2.org/) (compiled from the book,
+[ggplot2: Elegant Graphics for Data Analysis](http://www.amazon.com/dp/0387981403/ref=cm_sw_su_dp?tag=ggplot2-20)
