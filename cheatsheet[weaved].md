@@ -1,7 +1,52 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [Loading ggplot](#loading-ggplot)
+- [Basic use with qplot](#basic-use-with-qplot)
+  - [Color, size, shape and other aesthetic attributes](#color-size-shape-and-other-aesthetic-attributes)
+  - [Plot geoms](#plot-geoms)
+    - [Adding a smoother](#adding-a-smoother)
+    - [Boxplots and jittered points](#boxplots-and-jittered-points)
+    - [Histogram and density plots](#histogram-and-density-plots)
+    - [Bar charts](#bar-charts)
+    - [Time series](#time-series)
+  - [Faceting](#faceting)
+  - [Other options](#other-options)
+- [Build a plot layer by layer](#build-a-plot-layer-by-layer)
+  - [Basic plot types](#basic-plot-types)
+    - [`geom_point`](#geom_point)
+    - [`geom_bar`](#geom_bar)
+    - [`geom_line`](#geom_line)
+    - [`geom_area`](#geom_area)
+    - [`geom_path`](#geom_path)
+    - [`geom_text`](#geom_text)
+    - [`geom_tile`](#geom_tile)
+    - [`geom_polygon`](#geom_polygon)
+  - [Displaying distributions](#displaying-distributions)
+    - [`geom_histogram` and `geom_freqpoly`](#geom_histogram-and-geom_freqpoly)
+    - [`geom_boxplot`](#geom_boxplot)
+    - [`geom_jitter`](#geom_jitter)
+    - [`geom_density`](#geom_density)
+  - [Deal with overplotting](#deal-with-overplotting)
+  - [Surface plots](#surface-plots)
+  - [Drawing maps](#drawing-maps)
+    - [[Choropleth map](http://en.wikipedia.org/wiki/Choropleth_map)](#choropleth-maphttpenwikipediaorgwikichoropleth_map)
+  - [Uncertainty](#uncertainty)
+  - [Statistical summaries](#statistical-summaries)
+  - [Annotating a plot](#annotating-a-plot)
+  - [Weighted data](#weighted-data)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 
 ```r
-opts_chunk$set(warning=FALSE, message=FALSE, fig.width=8, fig.height=3)
+opts_chunk$set(warning=FALSE, message=FALSE, fig.width=w8, fig.height=3)
+```
+
+```
+## Error: object 'w8' not found
 ```
 
 # Loading ggplot
@@ -9,6 +54,10 @@ opts_chunk$set(warning=FALSE, message=FALSE, fig.width=8, fig.height=3)
 
 ```r
 library(ggplot2)
+```
+
+```
+## Loading required package: methods
 ```
 
 # Basic use with qplot
@@ -58,6 +107,10 @@ qplot(carat, price, data=dsmall, color=color, shape=cut, alpha=I(1/2))
 qplot(carat, price, data=dsmall, geom=c("point", "smooth"))
 ```
 
+```
+## geom_smooth: method="auto" and size of largest group is <1000, so using loess. Use 'method = x' to change the smoothing method.
+```
+
 ![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6.png) 
 
 ### Adding a smoother
@@ -93,6 +146,10 @@ qplot(color, price/carat, data=diamonds, geom="boxplot")
 qplot(carat, data=diamonds, geom="histogram", fill=color)
 ```
 
+```
+## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
+```
+
 ![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10.png) 
 
 
@@ -119,6 +176,10 @@ qplot(carat, data=diamonds, geom="histogram", binwidth=0.1)
 
 ```r
 qplot(carat, data=diamonds, geom="histogram", binwidth=0.01)
+```
+
+```
+## Warning: position_stack requires constant width: output may be incorrect
 ```
 
 ![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-123.png) 
@@ -278,6 +339,14 @@ depth_dist <- ggplot(diamonds, aes(depth)) + xlim(58, 68)
 depth_dist + geom_histogram()
 ```
 
+```
+## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
+```
+
+```
+## Warning: position_stack requires constant width: output may be incorrect
+```
+
 ![plot of chunk unnamed-chunk-28](figure/unnamed-chunk-28.png) 
 
 To compare the distribution between groups, couple of options
@@ -288,16 +357,36 @@ depth_dist + geom_histogram(aes(y = ..density..), binwidth=0.1) +
     facet_grid(cut ~ .)
 ```
 
+```
+## Warning: position_stack requires constant width: output may be incorrect
+## Warning: position_stack requires constant width: output may be incorrect
+## Warning: position_stack requires constant width: output may be incorrect
+## Warning: position_stack requires constant width: output may be incorrect
+## Warning: position_stack requires constant width: output may be incorrect
+```
+
 ![plot of chunk unnamed-chunk-29](figure/unnamed-chunk-291.png) 
 
 ```r
 depth_dist + geom_histogram(aes(fill=cut), binwidth=0.1, position="fill")
 ```
 
+```
+## Warning: position_fill requires constant width: output may be incorrect
+```
+
 ![plot of chunk unnamed-chunk-29](figure/unnamed-chunk-292.png) 
 
 ```r
 depth_dist + geom_freqpoly(aes(y = ..density.., color=cut), binwidth=0.1)
+```
+
+```
+## Warning: Removed 2 rows containing missing values (geom_path).
+## Warning: Removed 2 rows containing missing values (geom_path).
+## Warning: Removed 2 rows containing missing values (geom_path).
+## Warning: Removed 2 rows containing missing values (geom_path).
+## Warning: Removed 2 rows containing missing values (geom_path).
 ```
 
 ![plot of chunk unnamed-chunk-29](figure/unnamed-chunk-293.png) 
@@ -315,6 +404,30 @@ qplot(cut, depth, data=diamonds, geom="boxplot")
 library(plyr)
 qplot(carat, depth, data=diamonds, geom="boxplot",
       group = round_any(carat, 0.1, floor), xlim=c(0, 3))
+```
+
+```
+## Warning: position_dodge requires constant width: output may be incorrect
+## Warning: Removed 2 rows containing missing values (geom_segment).
+## Warning: Removed 1 rows containing missing values (geom_segment).
+## Warning: Removed 2 rows containing missing values (geom_segment).
+## Warning: Removed 1 rows containing missing values (geom_segment).
+## Warning: Removed 2 rows containing missing values (geom_segment).
+## Warning: Removed 1 rows containing missing values (geom_segment).
+## Warning: Removed 2 rows containing missing values (geom_segment).
+## Warning: Removed 1 rows containing missing values (geom_segment).
+## Warning: Removed 2 rows containing missing values (geom_segment).
+## Warning: Removed 1 rows containing missing values (geom_segment).
+## Warning: Removed 2 rows containing missing values (geom_segment).
+## Warning: Removed 1 rows containing missing values (geom_segment).
+## Warning: Removed 2 rows containing missing values (geom_segment).
+## Warning: Removed 1 rows containing missing values (geom_segment).
+## Warning: Removed 2 rows containing missing values (geom_segment).
+## Warning: Removed 1 rows containing missing values (geom_segment).
+## Warning: Removed 2 rows containing missing values (geom_segment).
+## Warning: Removed 1 rows containing missing values (geom_segment).
+## Warning: Removed 2 rows containing missing values (geom_segment).
+## Warning: Removed 1 rows containing missing values (geom_segment).
 ```
 
 ![plot of chunk unnamed-chunk-30](figure/unnamed-chunk-302.png) 
@@ -337,3 +450,180 @@ qplot(class, drv, data=mpg, geom="jitter")
 ### `geom_density`
 
 
+```r
+qplot(depth, data=diamonds, geom="density", xlim=c(54, 70))
+```
+
+```
+## Warning: Removed 38 rows containing non-finite values (stat_density).
+```
+
+![plot of chunk unnamed-chunk-32](figure/unnamed-chunk-321.png) 
+
+```r
+qplot(depth, data=diamonds, geom="density", xlim=c(54, 70), fill=cut, alpha=I(0.2))
+```
+
+```
+## Warning: Removed 37 rows containing non-finite values (stat_density).
+## Warning: Removed 1 rows containing non-finite values (stat_density).
+```
+
+![plot of chunk unnamed-chunk-32](figure/unnamed-chunk-322.png) 
+
+## Deal with overplotting
+
+- Make the points smaller
+
+
+```r
+df <- data.frame(x=rnorm(2000), y=rnorm(2000))
+norm <- ggplot(df, aes(x, y))
+norm + geom_point()
+```
+
+![plot of chunk unnamed-chunk-33](figure/unnamed-chunk-331.png) 
+
+```r
+norm + geom_point(shape=1)
+```
+
+![plot of chunk unnamed-chunk-33](figure/unnamed-chunk-332.png) 
+
+```r
+norm + geom_point(shape = ".")          # pixel-sized
+```
+
+![plot of chunk unnamed-chunk-33](figure/unnamed-chunk-333.png) 
+
+- Use alpha blending
+
+
+```r
+library(scales)
+norm + geom_point(color=alpha("black", 1/3))
+```
+
+![plot of chunk unnamed-chunk-34](figure/unnamed-chunk-341.png) 
+
+```r
+norm + geom_point(color=alpha("black", 1/5))
+```
+
+![plot of chunk unnamed-chunk-34](figure/unnamed-chunk-342.png) 
+
+```r
+norm + geom_point(color=alpha("black", 1/10))
+```
+
+![plot of chunk unnamed-chunk-34](figure/unnamed-chunk-343.png) 
+
+- Randomly jitter if there is some discreteness
+
+
+```r
+td <- ggplot(diamonds, aes(table, depth)) + xlim(50, 70) + ylim(50, 70)
+td + geom_point()
+```
+
+```
+## Warning: Removed 36 rows containing missing values (geom_point).
+```
+
+![plot of chunk unnamed-chunk-35](figure/unnamed-chunk-351.png) 
+
+```r
+td + geom_jitter()
+```
+
+```
+## Warning: Removed 45 rows containing missing values (geom_point).
+```
+
+![plot of chunk unnamed-chunk-35](figure/unnamed-chunk-352.png) 
+
+```r
+jit <- position_jitter(width=0.5)
+td + geom_jitter(position=jit)
+```
+
+```
+## Warning: Removed 43 rows containing missing values (geom_point).
+```
+
+![plot of chunk unnamed-chunk-35](figure/unnamed-chunk-353.png) 
+
+```r
+td + geom_jitter(position=jit, color=alpha("black", 1/10))
+```
+
+```
+## Warning: Removed 41 rows containing missing values (geom_point).
+```
+
+![plot of chunk unnamed-chunk-35](figure/unnamed-chunk-354.png) 
+
+```r
+td + geom_jitter(position=jit, color=alpha("black", 1/50))
+```
+
+```
+## Warning: Removed 44 rows containing missing values (geom_point).
+```
+
+![plot of chunk unnamed-chunk-35](figure/unnamed-chunk-355.png) 
+
+```r
+td + geom_jitter(position=jit, color=alpha("black", 1/200))
+```
+
+```
+## Warning: Removed 44 rows containing missing values (geom_point).
+```
+
+![plot of chunk unnamed-chunk-35](figure/unnamed-chunk-356.png) 
+
+## Surface plots
+
+## Drawing maps
+
+
+```r
+library(maps)
+data(us.cities)
+big_cities <- subset(us.cities, pop>500000)
+qplot(long, lat, data=big_cities) + borders("state", size=0.5)
+```
+
+![plot of chunk unnamed-chunk-36](figure/unnamed-chunk-36.png) 
+
+### [Choropleth map](http://en.wikipedia.org/wiki/Choropleth_map)
+
+```r
+states <- map_data("state")
+arrests <- USArrests
+names(arrests) <- tolower(names(arrests))
+arrests$region <- tolower(rownames(USArrests))
+
+choro <- merge(states, arrests, by="region")
+# reorder the rows because order matters when drawing polygons and merge
+# destroys the original ordering
+choro <- choro[order(choro$order), ]
+qplot(long, lat, data=choro, group=group, fill=assault, geom="polygon")
+```
+
+![plot of chunk unnamed-chunk-37](figure/unnamed-chunk-371.png) 
+
+```r
+qplot(long, lat, data=choro, group=group, fill=assault/murder, geom="polygon")
+```
+
+![plot of chunk unnamed-chunk-37](figure/unnamed-chunk-372.png) 
+
+## Uncertainty
+
+## Statistical summaries
+
+## Annotating a plot
+
+## Weighted data
