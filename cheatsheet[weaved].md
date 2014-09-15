@@ -1,33 +1,19 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
-
-- [Loading ggplot and sample data](#loading-ggplot-and-sample-data)
-- [Basic use with qplot](#basic-use-with-qplot)
-  - [Color, size, shape and other aesthetic attributes](#color-size-shape-and-other-aesthetic-attributes)
-  - [Plot geoms](#plot-geoms)
-    - [Adding a smoother](#adding-a-smoother)
-    - [Boxplots and jittered points](#boxplots-and-jittered-points)
-    - [Histogram and density plots](#histogram-and-density-plots)
-    - [Bar charts](#bar-charts)
-    - [Time series](#time-series)
-  - [Faceting](#faceting)
-  - [Other options](#other-options)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-
+o
 
 ```r
 opts_chunk$set(warning=FALSE, message=FALSE)
 ```
 
-# Loading ggplot and sample data
+# Loading ggplot
 
 
 ```r
 library(ggplot2)
 ```
+
+# Basic use with qplot
+
+Load the sample data
 
 
 ```r
@@ -48,8 +34,6 @@ head(diamonds)
 ```r
 dsmall <- diamonds[sample(nrow(diamonds), 100), ]
 ```
-
-# Basic use with qplot
 
 
 ```r
@@ -205,3 +189,151 @@ qplot(carat, price, data=dsmall,
 ```
 
 ![plot of chunk unnamed-chunk-18](figure/unnamed-chunk-18.png) 
+
+# Build a plot layer by layer
+
+More complicated, multi-layer plots can be generated using `ggplot()`.
+
+## Basic plot types
+
+
+```r
+df <- data.frame(x=c(3, 1, 5), y=c(2, 4, 6), label=c("a", "b", "c"))
+p <- ggplot(df, aes(x, y, label=label)) + xlab(NULL) + ylab(NULL)
+```
+
+### `geom_point`
+
+```r
+p + geom_point() + ggtitle("geom_point")
+```
+
+![plot of chunk unnamed-chunk-20](figure/unnamed-chunk-20.png) 
+
+### `geom_bar`
+
+```r
+p + geom_bar(stat="identity") + ggtitle("geom_bar(stat=\"identity\")")
+```
+
+![plot of chunk unnamed-chunk-21](figure/unnamed-chunk-21.png) 
+
+### `geom_line`
+
+```r
+p + geom_line() + ggtitle("geom_line")
+```
+
+![plot of chunk unnamed-chunk-22](figure/unnamed-chunk-22.png) 
+
+### `geom_area`
+
+```r
+p + geom_area() + ggtitle("geom_area")
+```
+
+![plot of chunk unnamed-chunk-23](figure/unnamed-chunk-23.png) 
+
+### `geom_path`
+
+```r
+p + geom_path() + ggtitle("geom_path")
+```
+
+![plot of chunk unnamed-chunk-24](figure/unnamed-chunk-24.png) 
+
+### `geom_text`
+
+```r
+p + geom_text() + ggtitle("geom_text")
+```
+
+![plot of chunk unnamed-chunk-25](figure/unnamed-chunk-25.png) 
+
+### `geom_tile`
+
+```r
+p + geom_tile() + ggtitle("geom_tile")
+```
+
+![plot of chunk unnamed-chunk-26](figure/unnamed-chunk-26.png) 
+
+### `geom_polygon`
+
+```r
+p + geom_polygon() + ggtitle("geom_polygon")
+```
+
+![plot of chunk unnamed-chunk-27](figure/unnamed-chunk-27.png) 
+
+## Displaying distributions
+
+For 1d data, the geom is the histogram.
+
+### `geom_histogram` and `geom_freqpoly`
+
+
+```r
+depth_dist <- ggplot(diamonds, aes(depth)) + xlim(58, 68)
+depth_dist + geom_histogram()
+```
+
+![plot of chunk unnamed-chunk-28](figure/unnamed-chunk-28.png) 
+
+To compare the distribution between groups, couple of options
+
+
+```r
+depth_dist + geom_histogram(aes(y = ..density..), binwidth=0.1) +
+    facet_grid(cut ~ .)
+```
+
+![plot of chunk unnamed-chunk-29](figure/unnamed-chunk-29.png) 
+
+
+```r
+depth_dist + geom_histogram(aes(fill=cut), binwidth=0.1, position="fill")
+```
+
+![plot of chunk unnamed-chunk-30](figure/unnamed-chunk-30.png) 
+
+
+```r
+depth_dist + geom_freqpoly(aes(y = ..density.., color=cut), binwidth=0.1)
+```
+
+![plot of chunk unnamed-chunk-31](figure/unnamed-chunk-31.png) 
+
+### `geom_boxplot`
+
+
+```r
+qplot(cut, depth, data=diamonds, geom="boxplot")
+```
+
+![plot of chunk unnamed-chunk-32](figure/unnamed-chunk-32.png) 
+
+
+```r
+library(plyr)
+qplot(carat, depth, data=diamonds, geom="boxplot",
+      group = round_any(carat, 0.1, floor), xlim=c(0, 3))
+```
+
+![plot of chunk unnamed-chunk-33](figure/unnamed-chunk-33.png) 
+
+### `geom_jitter`
+
+
+```r
+qplot(class, cty, data=mpg, geom="jitter")
+```
+
+![plot of chunk unnamed-chunk-34](figure/unnamed-chunk-341.png) 
+
+```r
+qplot(class, drv, data=mpg, geom="jitter")
+```
+
+![plot of chunk unnamed-chunk-34](figure/unnamed-chunk-342.png) 
+

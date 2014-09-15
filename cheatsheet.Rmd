@@ -1,4 +1,4 @@
-
+o
 ```{r}
 opts_chunk$set(warning=FALSE, message=FALSE)
 ```
@@ -111,3 +111,93 @@ qplot(carat, price, data=dsmall,
       main="Price-weight relationship")
 ```
 
+# Build a plot layer by layer
+
+More complicated, multi-layer plots can be generated using `ggplot()`.
+
+## Basic plot types
+
+```{r}
+df <- data.frame(x=c(3, 1, 5), y=c(2, 4, 6), label=c("a", "b", "c"))
+p <- ggplot(df, aes(x, y, label=label)) + xlab(NULL) + ylab(NULL)
+```
+
+### `geom_point`
+```{r}
+p + geom_point() + ggtitle("geom_point")
+```
+
+### `geom_bar`
+```{r}
+p + geom_bar(stat="identity") + ggtitle("geom_bar(stat=\"identity\")")
+```
+
+### `geom_line`
+```{r}
+p + geom_line() + ggtitle("geom_line")
+```
+
+### `geom_area`
+```{r}
+p + geom_area() + ggtitle("geom_area")
+```
+
+### `geom_path`
+```{r}
+p + geom_path() + ggtitle("geom_path")
+```
+
+### `geom_text`
+```{r}
+p + geom_text() + ggtitle("geom_text")
+```
+
+### `geom_tile`
+```{r}
+p + geom_tile() + ggtitle("geom_tile")
+```
+
+### `geom_polygon`
+```{r}
+p + geom_polygon() + ggtitle("geom_polygon")
+```
+
+## Displaying distributions
+
+For 1d data, the geom is the histogram.
+
+### `geom_histogram` and `geom_freqpoly`
+
+```{r}
+depth_dist <- ggplot(diamonds, aes(depth)) + xlim(58, 68)
+depth_dist + geom_histogram()
+```
+
+To compare the distribution between groups, couple of options
+
+```{r}
+depth_dist + geom_histogram(aes(y = ..density..), binwidth=0.1) +
+    facet_grid(cut ~ .)
+depth_dist + geom_histogram(aes(fill=cut), binwidth=0.1, position="fill")
+depth_dist + geom_freqpoly(aes(y = ..density.., color=cut), binwidth=0.1)
+```
+
+### `geom_boxplot`
+
+```{r}
+qplot(cut, depth, data=diamonds, geom="boxplot")
+library(plyr)
+qplot(carat, depth, data=diamonds, geom="boxplot",
+      group = round_any(carat, 0.1, floor), xlim=c(0, 3))
+```
+
+### `geom_jitter`
+
+```{r}
+qplot(class, cty, data=mpg, geom="jitter")
+qplot(class, drv, data=mpg, geom="jitter")
+```
+
+### `geom_density`
+
+```{r}
