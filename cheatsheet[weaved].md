@@ -1,7 +1,7 @@
-o
+
 
 ```r
-opts_chunk$set(warning=FALSE, message=FALSE)
+opts_chunk$set(warning=FALSE, message=FALSE, fig.width=8, fig.height=3)
 ```
 
 # Loading ggplot
@@ -288,21 +288,19 @@ depth_dist + geom_histogram(aes(y = ..density..), binwidth=0.1) +
     facet_grid(cut ~ .)
 ```
 
-![plot of chunk unnamed-chunk-29](figure/unnamed-chunk-29.png) 
-
+![plot of chunk unnamed-chunk-29](figure/unnamed-chunk-291.png) 
 
 ```r
 depth_dist + geom_histogram(aes(fill=cut), binwidth=0.1, position="fill")
 ```
 
-![plot of chunk unnamed-chunk-30](figure/unnamed-chunk-30.png) 
-
+![plot of chunk unnamed-chunk-29](figure/unnamed-chunk-292.png) 
 
 ```r
 depth_dist + geom_freqpoly(aes(y = ..density.., color=cut), binwidth=0.1)
 ```
 
-![plot of chunk unnamed-chunk-31](figure/unnamed-chunk-31.png) 
+![plot of chunk unnamed-chunk-29](figure/unnamed-chunk-293.png) 
 
 ### `geom_boxplot`
 
@@ -311,8 +309,7 @@ depth_dist + geom_freqpoly(aes(y = ..density.., color=cut), binwidth=0.1)
 qplot(cut, depth, data=diamonds, geom="boxplot")
 ```
 
-![plot of chunk unnamed-chunk-32](figure/unnamed-chunk-32.png) 
-
+![plot of chunk unnamed-chunk-30](figure/unnamed-chunk-301.png) 
 
 ```r
 library(plyr)
@@ -320,7 +317,7 @@ qplot(carat, depth, data=diamonds, geom="boxplot",
       group = round_any(carat, 0.1, floor), xlim=c(0, 3))
 ```
 
-![plot of chunk unnamed-chunk-33](figure/unnamed-chunk-33.png) 
+![plot of chunk unnamed-chunk-30](figure/unnamed-chunk-302.png) 
 
 ### `geom_jitter`
 
@@ -329,11 +326,14 @@ qplot(carat, depth, data=diamonds, geom="boxplot",
 qplot(class, cty, data=mpg, geom="jitter")
 ```
 
-![plot of chunk unnamed-chunk-34](figure/unnamed-chunk-341.png) 
+![plot of chunk unnamed-chunk-31](figure/unnamed-chunk-311.png) 
 
 ```r
 qplot(class, drv, data=mpg, geom="jitter")
 ```
 
-![plot of chunk unnamed-chunk-34](figure/unnamed-chunk-342.png) 
+![plot of chunk unnamed-chunk-31](figure/unnamed-chunk-312.png) 
+
+### `geom_density`
+
 

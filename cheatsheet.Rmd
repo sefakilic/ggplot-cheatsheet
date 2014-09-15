@@ -1,6 +1,6 @@
-o
+
 ```{r}
-opts_chunk$set(warning=FALSE, message=FALSE)
+opts_chunk$set(warning=FALSE, message=FALSE, fig.width=w8, fig.height=3)
 ```
 
 # Loading ggplot
