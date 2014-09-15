@@ -1,6 +1,6 @@
 
 ## ------------------------------------------------------------------------
-opts_chunk$set(warning=FALSE, message=FALSE, fig.width=w8, fig.height=3)
+opts_chunk$set(warning=FALSE, message=FALSE, fig.width=8, fig.height=3)
 
 
 ## ------------------------------------------------------------------------
