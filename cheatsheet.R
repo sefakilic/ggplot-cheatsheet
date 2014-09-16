@@ -1,6 +1,6 @@
 
 ## ------------------------------------------------------------------------
-opts_chunk$set(warning=FALSE, message=FALSE, fig.width=8, fig.height=3)
+opts_chunk$set(warning=FALSE, message=FALSE, fig.width=8, fig.height=4)
 
 
 ## ------------------------------------------------------------------------
@@ -192,5 +192,31 @@ choro <- merge(states, arrests, by="region")
 choro <- choro[order(choro$order), ]
 qplot(long, lat, data=choro, group=group, fill=assault, geom="polygon")
 qplot(long, lat, data=choro, group=group, fill=assault/murder, geom="polygon")
+
+
+## ------------------------------------------------------------------------
+unemp <- qplot(date, unemploy, data=economics, geom="line",
+               xlab="", ylab="No. unemployed (1000s)")
+
+presidential <- presidential[-(1:3), ]
+
+yrng <- range(economics$unemploy) 
+xrng <- range(economics$date)
+unemp + geom_vline(aes(xintercept=as.numeric(start)), data=presidential)
+unemp + geom_rect(aes(NULL, NULL, xmin=start, xmax=end, fill=party),
+                  ymin=yrng[1], ymax=yrng[2], data=presidential) +
+    scale_fill_manual(values=alpha(c("blue", "red"), 0.2))
+
+last_plot() + geom_text(aes(x=start, y=yrng[1], label=name),
+                        data=presidential, size=3, hjust=0, vjust=0)
+
+caption <- paste(strwrap("Unemployment rates in the US have varied
+alot over the years", 40), collapse="\n")
+unemp + geom_text(aes(x, y, label=caption),
+                  data=data.frame(x=xrng[2], y=yrng[2]),
+                  hjust=1, vjust=1, size=4)
+
+highest <- subset(economics, unemploy==max(unemploy))
+unemp + geom_point(data=highest, size=3, color=alpha("red", 0.3))
 
 

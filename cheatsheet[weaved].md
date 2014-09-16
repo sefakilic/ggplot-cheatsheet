@@ -1,7 +1,44 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [Loading ggplot](#loading-ggplot)
+- [Basic use with qplot](#basic-use-with-qplot)
+  - [Color, size, shape and other aesthetic attributes](#color-size-shape-and-other-aesthetic-attributes)
+  - [Plot geoms](#plot-geoms)
+    - [Adding a smoother](#adding-a-smoother)
+    - [Boxplots and jittered points](#boxplots-and-jittered-points)
+    - [Histogram and density plots](#histogram-and-density-plots)
+    - [Bar charts](#bar-charts)
+    - [Time series](#time-series)
+  - [Faceting](#faceting)
+  - [Other options](#other-options)
+- [Build a plot layer by layer](#build-a-plot-layer-by-layer)
+  - [Basic plot types](#basic-plot-types)
+    - [`geom_point`](#geom_point)
+    - [`geom_bar`](#geom_bar)
+    - [`geom_line`](#geom_line)
+    - [`geom_area`](#geom_area)
+    - [`geom_path`](#geom_path)
+    - [`geom_text`](#geom_text)
+    - [`geom_tile`](#geom_tile)
+    - [`geom_polygon`](#geom_polygon)
+  - [Displaying distributions](#displaying-distributions)
+    - [`geom_histogram` and `geom_freqpoly`](#geom_histogram-and-geom_freqpoly)
+    - [`geom_boxplot`](#geom_boxplot)
+    - [`geom_jitter`](#geom_jitter)
+    - [`geom_density`](#geom_density)
+  - [Deal with overplotting](#deal-with-overplotting)
+  - [Surface plots](#surface-plots)
+  - [Drawing maps](#drawing-maps)
+    - [[Choropleth map](http://en.wikipedia.org/wiki/Choropleth_map)](#choropleth-maphttpenwikipediaorgwikichoropleth_map)
+  - [Annotating a plot](#annotating-a-plot)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 
 ```r
-opts_chunk$set(warning=FALSE, message=FALSE, fig.width=8, fig.height=3)
+opts_chunk$set(warning=FALSE, message=FALSE, fig.width=8, fig.height=4)
 ```
 
 # Loading ggplot
@@ -474,10 +511,56 @@ qplot(long, lat, data=choro, group=group, fill=assault/murder, geom="polygon")
 
 ![plot of chunk unnamed-chunk-37](figure/unnamed-chunk-372.png) 
 
-## Uncertainty
-
-## Statistical summaries
-
 ## Annotating a plot
 
-## Weighted data
+Just extra data
+
+- adding one at a time
+- many at once
+
+
+```r
+unemp <- qplot(date, unemploy, data=economics, geom="line",
+               xlab="", ylab="No. unemployed (1000s)")
+
+presidential <- presidential[-(1:3), ]
+
+yrng <- range(economics$unemploy) 
+xrng <- range(economics$date)
+unemp + geom_vline(aes(xintercept=as.numeric(start)), data=presidential)
+```
+
+![plot of chunk unnamed-chunk-38](figure/unnamed-chunk-381.png) 
+
+```r
+unemp + geom_rect(aes(NULL, NULL, xmin=start, xmax=end, fill=party),
+                  ymin=yrng[1], ymax=yrng[2], data=presidential) +
+    scale_fill_manual(values=alpha(c("blue", "red"), 0.2))
+```
+
+![plot of chunk unnamed-chunk-38](figure/unnamed-chunk-382.png) 
+
+```r
+last_plot() + geom_text(aes(x=start, y=yrng[1], label=name),
+                        data=presidential, size=3, hjust=0, vjust=0)
+```
+
+![plot of chunk unnamed-chunk-38](figure/unnamed-chunk-383.png) 
+
+```r
+caption <- paste(strwrap("Unemployment rates in the US have varied
+alot over the years", 40), collapse="\n")
+unemp + geom_text(aes(x, y, label=caption),
+                  data=data.frame(x=xrng[2], y=yrng[2]),
+                  hjust=1, vjust=1, size=4)
+```
+
+![plot of chunk unnamed-chunk-38](figure/unnamed-chunk-384.png) 
+
+```r
+highest <- subset(economics, unemploy==max(unemploy))
+unemp + geom_point(data=highest, size=3, color=alpha("red", 0.3))
+```
+
+![plot of chunk unnamed-chunk-38](figure/unnamed-chunk-385.png) 
+
