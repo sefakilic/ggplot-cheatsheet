@@ -1,5 +1,6 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+# ggplot-cheatsheet
+
+**Table of Contents** 
 
 - [Loading ggplot](#loading-ggplot)
 - [Basic use with qplot](#basic-use-with-qplot)
@@ -32,6 +33,10 @@
   - [Drawing maps](#drawing-maps)
     - [[Choropleth map](http://en.wikipedia.org/wiki/Choropleth_map)](#choropleth-maphttpenwikipediaorgwikichoropleth_map)
   - [Annotating a plot](#annotating-a-plot)
+- [Faceting](#faceting-1)
+  - [Facet grid](#facet-grid)
+    - [Margins](#margins)
+  - [Facet wrap](#facet-wrap)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -563,4 +568,56 @@ unemp + geom_point(data=highest, size=3, color=alpha("red", 0.3))
 ```
 
 ![plot of chunk unnamed-chunk-38](figure/unnamed-chunk-385.png) 
+
+# Faceting
+
+## Facet grid
+
+
+```r
+qplot(cty, hwy, data=mpg) + facet_grid(. ~ cyl)
+```
+
+![plot of chunk unnamed-chunk-39](figure/unnamed-chunk-391.png) 
+
+```r
+qplot(cty, data=mpg, geom="histogram", binwidth=2) + facet_grid(cyl ~ .)
+```
+
+![plot of chunk unnamed-chunk-39](figure/unnamed-chunk-392.png) 
+
+```r
+qplot(cty, hwy, data=mpg) + facet_grid(drv ~ cyl)
+```
+
+![plot of chunk unnamed-chunk-39](figure/unnamed-chunk-393.png) 
+
+### Margins
+
+
+```r
+p <- qplot(displ, hwy, data=mpg) + geom_smooth(method="lm", se=F)
+p + facet_grid(cyl ~ drv)
+```
+
+![plot of chunk unnamed-chunk-40](figure/unnamed-chunk-401.png) 
+
+```r
+p + facet_grid(cyl ~ drv, margins=T)
+```
+
+![plot of chunk unnamed-chunk-40](figure/unnamed-chunk-402.png) 
+
+## Facet wrap
+
+
+```r
+library(plyr)
+movies$decade <- round_any(movies$year, 10, floor)
+qplot(rating, ..density.., data=subset(movies, decade > 1890),
+      geom="histogram", binwidth=0.5) +
+    facet_wrap(~ decade, ncol=6)
+```
+
+![plot of chunk unnamed-chunk-41](figure/unnamed-chunk-41.png) 
 

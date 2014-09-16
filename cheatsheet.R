@@ -220,3 +220,23 @@ highest <- subset(economics, unemploy==max(unemploy))
 unemp + geom_point(data=highest, size=3, color=alpha("red", 0.3))
 
 
+## ------------------------------------------------------------------------
+qplot(cty, hwy, data=mpg) + facet_grid(. ~ cyl)
+qplot(cty, data=mpg, geom="histogram", binwidth=2) + facet_grid(cyl ~ .)
+qplot(cty, hwy, data=mpg) + facet_grid(drv ~ cyl)
+
+
+## ------------------------------------------------------------------------
+p <- qplot(displ, hwy, data=mpg) + geom_smooth(method="lm", se=F)
+p + facet_grid(cyl ~ drv)
+p + facet_grid(cyl ~ drv, margins=T)
+
+
+## ------------------------------------------------------------------------
+library(plyr)
+movies$decade <- round_any(movies$year, 10, floor)
+qplot(rating, ..density.., data=subset(movies, decade > 1890),
+      geom="histogram", binwidth=0.5) +
+    facet_wrap(~ decade, ncol=6)
+
+
